@@ -8,15 +8,28 @@ include "./temp/header.php";
 <section class="container pt-5">
   <div class="card pt-5">
     <h1>HALAMAN LOGIN</h1>
-    <?php if (isset($_SESSION["REGISTER SUCCESS"])) : ?>
+    <?php if (isset($_SESSION["LOGIN SUCCESS"])) : ?>
         <div class="alert alert-success" role="alert">
-          <?= $_SESSION["REGISTER SUCCESS"] ?>
+          <?= $_SESSION["LOGIN SUCCESS"] ?>
         </div>
 <?php session_unset();
 endif ?>
-    <form>
+    <?php if (isset($_SESSION["VALIDATION_LOGIN"])) : ?>
+        <div class="alert alert-danger" role="alert">
+          <?= $_SESSION["VALIDATION_LOGIN"] ?>
+        </div>
+<?php session_unset();
+endif ?>
+    <?php if (isset($_SESSION["VALIDATION_INPUT"])) : ?>
+        <div class="alert alert-danger" role="alert">
+          <?= $_SESSION["VALIDATION_INPUT"] ?>
+        </div>
+<?php session_unset();
+endif ?>
+
+      <form action="db/login.php" method="POST">
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Full Name</label>
+        <label for="exampleInputEmail1" class="form-label">Email</label>
         <input type
           type="email"
           name="email"
@@ -38,8 +51,8 @@ endif ?>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
       <p>
-        Have an account?
-        <a href="http://localhost/aplikasi_daftar_part2/register.php">Login</a>
+        Doesn't have an account?
+        <a href="http://localhost/aplikasi_daftar_part2/register.php">Register</a>
       </p>
     </form>
   </div>
