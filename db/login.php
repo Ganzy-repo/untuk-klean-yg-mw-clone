@@ -5,39 +5,35 @@ require 'connection.php';
 $email = $_POST["email"];
 $password = $_POST["password"];
 
-if(
+if (
     $email == "" ||
     $password == ""
-    ) {
-    $_SESSION ["VALIDATION_INPUT"] = "All fields must be filled";
+) {
+    $_SESSION["VALIDATION_INPUT"] = "All fields must be filled";
     header("Location: http://localhost/aplikasi_daftar_part2/login.php");
-    return;
-    }
+    die;
+}
 
 $cekUser = "SELECT * FROM users WHERE email= '$email'";
-$user = $connection->query($cekUser);
+$user = mysqli_query($connection, $cekUser);
 
-if ($user->num_rows == 0) {
-    $_SESSION['VALIDATION_LOGIN'] = "Email or Password is worng!";
+if ($connection->query($cekUser)->num_rows == 0) {
+    $_SESSION['VALIDATION_LOGIN'] = "Email or Password didn't exist!";
     header("Location: http://localhost/aplikasi_daftar_part2/login.php");
     $connection->close();
     die();
 }
 
-$password_hashed = password_hash($password, PASSWORD_DEFAULT);
+$auth = $user->fetch_assoc();
 
-    $sql = "SELECT FROM users (
-    email,
-    password )
-    VALUES ('$email', '$password_hashed')";
-
-
-    if ($connection->query($sql)->num_rows > 0) {
-        $_SESSION['LOGIN_SUCCESS'] = "Welcome!!";
-        header("Location: http://localhost/aplikasi_daftar_part2/student.php");
-        $connection->close();
-        die();
-    }
-
-echo "ERROR" . $sql . "<br/>" . $connection->error;
+if (password_verify($password, $auth['password'])) {
+    $_SESSION['LOGIN_SUCCESS'] = "Welcome!!";
+    $_SESSION['is_login'] = true;
+    header("Location: http://localhost/aplikasi_daftar_part2/student.php");
     $connection->close();
+    die();
+}
+$_SESSION['LOGIN_FAILED'] = "Email or Password is wrong!";
+header("Location: http://localhost/aplikasi_daftar_part2/login.php");
+$connection->close();
+die();

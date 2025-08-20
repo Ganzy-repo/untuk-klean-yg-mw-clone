@@ -5,11 +5,17 @@ include "./temp/header.php";
 include "./db/data.php";
 
 $no = 1;
-
-if(isset($_SESSION["is_login"]) == false) {
+ if(isset($_SESSION["is_login"]) == false) {
     header("Location: http://localhost/aplikasi_daftar_part2/login.php");
     }
 ?>
+
+ <?php if (isset($_SESSION["LOGIN_SUCCESS"])) : ?>
+        <div class="alert alert-success" role="alert">
+          <?= $_SESSION["LOGIN_SUCCESS"] ?>
+        </div>
+<?php session_unset();
+endif ?>
 
 <h1>Aplikasi Data Siswa</h1>
 <a href = "http://localhost/aplikasi_daftar_part2/create-student.php">Add Student</a>

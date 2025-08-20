@@ -3,29 +3,39 @@ session_start();
 $title = "Aplikasi Data Siswa | LOGIN ";
 include "./temp/header.php";
 
+
 ?>
 
 <section class="container pt-5">
   <div class="card pt-5">
     <h1>HALAMAN LOGIN</h1>
-    <?php if (isset($_SESSION["LOGIN SUCCESS"])) : ?>
+        <?php if (isset($_SESSION["VALIDATION_INPUT"])) : ?>
+            <div class="alert alert-danger" role="alert">
+              <?= $_SESSION["VALIDATION_INPUT"] ?>
+            </div>
+    <?php session_unset();
+    endif ?>
+        <?php if (isset($_SESSION["VALIDATION_LOGIN"])) : ?>
+            <div class="alert alert-danger" role="alert">
+              <?= $_SESSION["VALIDATION_LOGIN"] ?>
+            </div>
+    <?php session_unset();
+    endif ?>
+    <?php if (isset($_SESSION["LOGIN_SUCCESS"])) : ?>
         <div class="alert alert-success" role="alert">
-          <?= $_SESSION["LOGIN SUCCESS"] ?>
+          <?= $_SESSION["LOGIN_SUCCESS"] ?>
         </div>
 <?php session_unset();
 endif ?>
-    <?php if (isset($_SESSION["VALIDATION_LOGIN"])) : ?>
+    <?php if (isset($_SESSION["LOGIN_FAILED"])) : ?>
         <div class="alert alert-danger" role="alert">
-          <?= $_SESSION["VALIDATION_LOGIN"] ?>
+          <?= $_SESSION["LOGIN_FAILED"] ?>
         </div>
 <?php session_unset();
 endif ?>
-    <?php if (isset($_SESSION["VALIDATION_INPUT"])) : ?>
-        <div class="alert alert-danger" role="alert">
-          <?= $_SESSION["VALIDATION_INPUT"] ?>
-        </div>
-<?php session_unset();
-endif ?>
+<?php if(isset($_SESSION["is_login"]) == true) {
+    header("Location: http://localhost/aplikasi_daftar_part2/student.php");
+    } ?>
 
       <form action="db/login.php" method="POST">
       <div class="mb-3">
