@@ -18,7 +18,7 @@ $cekUser = "SELECT * FROM users WHERE email= '$email'";
 $user = mysqli_query($connection, $cekUser);
 
 if ($connection->query($cekUser)->num_rows == 0) {
-    $_SESSION['VALIDATION_LOGIN'] = "Email or Password didn't exist!";
+    $_SESSION['VALIDATION_LOGIN'] = "Email or Passwod didn't exist!";
     header("Location: http://localhost/aplikasi_daftar_part2/login.php");
     $connection->close();
     die();
